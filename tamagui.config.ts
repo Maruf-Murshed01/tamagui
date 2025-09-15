@@ -1,11 +1,20 @@
-import { defaultConfig } from '@tamagui/config/v4'
+import { config as BaseConfig } from '@tamagui/config/v4'
 import { createTamagui } from 'tamagui'
 
-export const config = createTamagui(defaultConfig)
+// Import the themes and tokens from the packages you installed
+import { themes, tokens } from '@tamagui/themes'
 
-type CustomConfig = typeof config
+// Create the configuration by extending the v4 config with themes and tokens
+export const tamaguiConfig = createTamagui({
+  ...BaseConfig,
+  themes,
+  tokens,
+})
 
-// ensure types work
+export type AppConfig = typeof tamaguiConfig
+
 declare module 'tamagui' {
-  interface TamaguiCustomConfig extends CustomConfig {}
+  interface TamaguiCustomConfig extends AppConfig {}
 }
+
+export { tamaguiConfig as config }
